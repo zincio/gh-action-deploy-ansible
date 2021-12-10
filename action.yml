@@ -1,0 +1,27 @@
+name: 'Deploy using ansible-playbook'
+description: 'deploys a repo using an ansible-playbook'
+inputs:
+  vault_password:
+    description: password to use to decrypt the ansible vault
+    required: true
+  ansible_dir:
+    description: directory where ansible is checked out. By default this is assumed to be "./ansible"
+    required: false
+  inventory:
+    description: $ansible_dir relative path to inventory file. E.g. inventory/webserver
+    required: true
+  encrypted_ssh_key:
+    description: $ansible_dir relative path for file where encrypted ssh deploy key is stored. Defaults to $ansible_dir/id_rsa_deploy_encrypted
+    required: false
+  extra_vars:
+    description: arguments to pass to ansible-playbook as "--extra-vars". E.g. "SERVER_REPLICAS=4 SERVER_VERSION='latest'"
+    required: false
+  playbook:
+    description: $ansible_dir relative path for playbook to run. E.g. web-server.yml
+    required: true
+  ssh_user:
+    description: ssh user that corresponds to deploy key
+    required: true
+runs:
+ using: 'docker'
+ image: 'Dockerfile'
